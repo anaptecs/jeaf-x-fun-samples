@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.anaptecs.jeaf.x-fun</groupId>
+	<artifactId>jeaf-x-fun-samples</artifactId>
+	<version>1.5.22-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	<name>JEAF X-Fun Samples</name>
+	<description>Project provides sample code for usage of JEAF X-Fun API.</description>
+	<url>https://github.com/anaptecs/jeaf-x-fun-samples</url>
+	
+	<developers>
+		<developer>
+			<name>Tillmann Schall</name>
+			<email>jeaf@anaptecs.de</email>
+			<organization>anaptecs GmbH</organization>
+			<organizationUrl>http://www.anaptecs.de</organizationUrl>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:svn:https://subversion.anaptecs.de/svn/JEAF/jeaf-x-fun/samples/trunk</connection>
+		<developerConnection>scm:svn:https://subversion.anaptecs.de/svn/JEAF/jeaf-x-fun/samples/trunk</developerConnection>
+		<url>https://subversion.anaptecs.de/svn/JEAF/jeaf-x-fun/samples/trunk</url>
+	</scm>
+	
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<licenses>
+		<license>
+			<name>The Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+
+	<properties>
+		<!-- 
+			Version of the JEAF X-Fun API that will be used to demonstrate usage of JEAF X-Fun. X-Fun API is a compile 
+			time dependency. As JEAF in general supports semantic versioning (https://semver.org/) upgrades within the 
+			same major version are always possible without having any impact on the application code. 
+		-->
+		<jeaf.x-fun.api.version>1.5.18-SNAPSHOT</jeaf.x-fun.api.version>
+
+		<!-- 
+			Version of JEAF X-Fun implementation that will be used at runtime. This is only a runtime dependency. 
+		-->
+		<jeaf.xfun.impl.version>1.5.18-SNAPSHOT</jeaf.xfun.impl.version>
+
+		<!-- 
+			JEAF Maven Plugin can be used to generate configuration files that are required by JEAF. However the actual 
+			configuration of JEAF is done through annotations. In case of JEAF X-Fun no specific configuration is 
+			required at all. All information that is needed is available by choosing the version of the default runtime 
+			for your project. 
+		-->
+		<maven.jeaf-plugin.version>1.5.8</maven.jeaf-plugin.version>
+
+		<!-- 
+			Version of JEAF Generator that is used. In case of JEAF X-Fun this Maven plugin is required to generate so 
+			called message constants that can be used in the application code to reference messages / error codes that 
+			are provided by JEAF's internationalization mechanism. Also refer to class 
+			com.anaptecs.jeaf.xfun.samples.messages.InternationalizationSample 
+		-->
+		<maven.jeaf-generator-plugin.version>1.5.10</maven.jeaf-generator-plugin.version>
+		
+		<!-- Required versions -->
+		<maven.version>3.6.0</maven.version>
+		<jdk.version>1.8.0</jdk.version>
+
+		<!-- Define versions of used Maven plugins -->
+		<maven.assembly.version>3.2.0</maven.assembly.version>
+		<maven.compiler.version>3.8.0</maven.compiler.version>
+		<maven.build.helper.version>3.0.0</maven.build.helper.version>
+		<maven.surefire.version>3.0.0-M3</maven.surefire.version>
+		<maven.gpg.version>1.6</maven.gpg.version>
+		<maven.javadoc.version>3.0.1</maven.javadoc.version>
+		<maven.source.version>3.0.1</maven.source.version>
+		<maven.nexus-staging.version>1.6.8</maven.nexus-staging.version>
+		<maven.release.version>2.5.3</maven.release.version>
+		<maven.enforcer.version>3.0.0-M2</maven.enforcer.version>
+		
+		<!-- Define used versions for JUnit 5 -->
+		<junit.version>5.5.2</junit.version>
+		<junit.platform.version>1.5.2</junit.platform.version>
+
+		<!-- Additional project settings -->
+		<java.source.version>1.8</java.source.version>
+		<java.target.version>1.8</java.target.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss.SSS</maven.build.timestamp.format>
+		<dest.dir>../target</dest.dir>
+		<endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
+		<src-gen.dir>${project.build.directory}/src-gen</src-gen.dir>
+	</properties>
+
+	<dependencies>
+		<!-- Compile time dependency of JEAF X-Fun API -->
+		<dependency>
+			<groupId>com.anaptecs.jeaf.x-fun</groupId>
+			<artifactId>jeaf-x-fun-api</artifactId>
+			<version>${jeaf.x-fun.api.version}</version>
+		</dependency>
+
+		<!-- Runtime dependency for X-Fun implementation. In almost all cases the X-Fun default runtime can be used. -->
+		<dependency>
+			<groupId>com.anaptecs.jeaf.x-fun</groupId>
+			<artifactId>jeaf-x-fun-default-runtime</artifactId>
+			<version>${jeaf.xfun.impl.version}</version>
+			<scope>runtime</scope>
+			<type>pom</type>
+		</dependency>
+
+		<!-- Dependencies required for JUnit 5 -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.junit.platform</groupId>
+			<artifactId>junit-platform-suite-api</artifactId>
+			<version>${junit.platform.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.platform</groupId>
+			<artifactId>junit-platform-runner</artifactId>
+			<version>${junit.platform.version}</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven.compiler.version}</version>
+				<configuration>
+					<source>${java.source.version}</source>
+					<target>${java.target.version}</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven.surefire.version}</version>
+				<configuration>
+					<includes>
+						<include>**/*Sample.java</include>
+					</includes>
+				</configuration>
+			</plugin>
+
+			<!-- 
+				 Build helper plugin adds directories with generated sources / resources to build:
+				 - src-gen/main/java
+				 - src-gen/test/java
+				 - src-gen/main/resources
+				 - src-gen/test/resources
+				 
+				 In addition to directories with generated code also default directories have to be set here when 
+				 directory layout is customized.
+			-->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>${maven.build.helper.version}</version>
+				<executions>
+					<execution>
+						<id>sources</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${basedir}/src/main/java</source>
+								<source>${basedir}/src-gen/main/java</source>
+							</sources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>test-sources</id>
+						<phase>generate-test-sources</phase>
+						<goals>
+							<goal>add-test-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${basedir}/src/test/java</source>
+								<source>${basedir}/src-gen/test/java</source>
+							</sources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>resources</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>add-resource</goal>
+						</goals>
+						<configuration>
+							<resources>
+								<resource>
+									<directory>${basedir}/src/main/resources</directory>
+								</resource>
+								<resource>
+									<directory>${basedir}/src-gen/main/resources</directory>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>test-resources</id>
+						<phase>generate-test-resources</phase>
+						<goals>
+							<goal>add-test-resource</goal>
+						</goals>
+						<configuration>
+							<resources>
+								<resource>
+									<directory>${basedir}/src/test/resources</directory>
+								</resource>
+								<resource>
+									<directory>${basedir}/src-gen/test/resources</directory>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+	        <!--
+	             JEAF Maven Plugin will generate JEAF configuration files. Besides executing the plugin during build no
+	             specific configurations are required to use JEAF X-Fun.
+	        -->
+			<plugin>
+				<groupId>com.anaptecs.jeaf.maven</groupId>
+				<artifactId>jeaf-maven-plugin</artifactId>
+				<version>${maven.jeaf-plugin.version}</version>
+				<executions>
+					<!-- Cleanup run. All existing generated files will be deleted before they will be generated again. -->
+					<execution>
+						<id>Clean</id>
+						<goals>
+							<goal>GenerateJEAFConfig</goal>
+						</goals>
+						<phase>clean</phase>
+						<configuration>
+							<resourceGenDirectory>${basedir}/src-gen/main/resources</resourceGenDirectory>
+							<cleanMetaInfDirectory>true</cleanMetaInfDirectory>
+							<cleanOnly>true</cleanOnly>
+						</configuration>
+					</execution>
+
+					<!-- Generate configuration files. -->
+					<execution>
+						<id>GenerateConfigs</id>
+						<goals>
+							<goal>GenerateJEAFConfig</goal>
+						</goals>
+						<configuration>
+							<resourceGenDirectory>${basedir}/src-gen/main/resources</resourceGenDirectory>
+							<targetDirectory>${basedir}/target/classes</targetDirectory>
+							
+							<!-- As we are only working with JEAF X-Fun we also limit configuration detection to X-Fun -->
+							<explicitConfigurationDetection>
+								<detectXFunConfigs>true</detectXFunConfigs>
+								<detectToolsConfigs>true</detectToolsConfigs>
+							</explicitConfigurationDetection>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- 
+				 JEAF Generator is provided as Maven Plugin. It's strongly recommended to integrate JEAF Generator into 
+				 the standard build process, so that the generated code is always up to date. In case of JEAF X-Fun the 
+				 plugin cares about the following things:
+				 
+				   - Generate constants for all types for messages that are defined.
+				   
+				   - Messages can by maintained using Excel workbooks. In order to avoid runtime dependencies to Excel 
+				     libraries workbooks will be transformed into XML files that will be used during runtime. This is 
+				     also done by the plugin.
+			-->
+			<plugin>
+				<groupId>com.anaptecs.jeaf.generator</groupId>
+				<artifactId>jeaf-generator-maven-plugin</artifactId>
+				<version>${maven.jeaf-generator-plugin.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>Generator</goal>
+						</goals>
+						<phase>generate-sources</phase>
+					</execution>
+				</executions>
+				<configuration>
+					<!-- Define input files and directories where output should be write to. -->
+					<sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
+					<sourceGenDirectory>${project.basedir}/src-gen/main/java</sourceGenDirectory>
+					<resourceDirectory>${project.basedir}/src/main/resources</resourceDirectory>
+					<resourceGenDirectory>${project.basedir}/src-gen/main/resources</resourceGenDirectory>
+
+					<!-- 
+					     Configure behavior concerning existing files in src-gen and res-gen directory. It is strongly 
+					     recommended to clean directories before generating new files. 
+					-->
+					<cleanSourceGen>true</cleanSourceGen>
+					<cleanResourceGen>true</cleanResourceGen>
+
+					<!-- Define resource files that should be ignored when generating message constant classes from resources. -->
+					<ignoredResourceFiles>
+						<ignoredResourceFile>Log4j.xml</ignoredResourceFile>
+					</ignoredResourceFiles>
+
+					<!-- Define what should be generated. By default nothing is generated. -->
+					<generateMessageConstants>true</generateMessageConstants>
+
+					<!-- Define information that are written to file headers -->
+					<fileHeaderCompany>anaptecs GmbH, Ricarda-Huch-Str. 71, 72760 Reutlingen, Germany</fileHeaderCompany>
+					<fileHeaderAuthor>JEAF Generator</fileHeaderAuthor>
+					<fileHeaderCopyright>Copyright 2004 - 2020. All rights reserved.</fileHeaderCopyright>
+					<fileHeaderVersion>JEAF Release 1.5.x</fileHeaderVersion>
+				</configuration>
+			</plugin>
+
+            <!-- Plugin is needed to pack the whole sample project together -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>${maven.assembly.version}</version>
+                <configuration>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <descriptors>
+                        <descriptor>${basedir}/assembly.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+			<!-- Enforce plugin is used to ensure that right Maven and Java versions are used. -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<version>${maven.enforcer.version}</version>
+				<executions>
+					<execution>
+						<id>enforce-versions</id>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<requireMavenVersion>
+									<version>${maven.version}</version>
+								</requireMavenVersion>
+								<requireJavaVersion>
+									<version>${jdk.version}</version>
+								</requireJavaVersion>
+							</rules>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!-- 
+					 This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the 
+					 Maven build itself. 
+				-->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>com.anaptecs.jeaf.generator</groupId>
+										<artifactId>jeaf-generator-maven-plugin</artifactId>
+										<versionRange>[1.5.8,)</versionRange>
+										<goals>
+											<goal>Generator</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>com.anaptecs.jeaf.maven</groupId>
+										<artifactId>jeaf-maven-plugin</artifactId>
+										<versionRange>[1.5.5,)</versionRange>
+										<goals>
+											<goal>GenerateJEAFConfig</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+	<profiles>
+		<!-- Profile with all settings for releasing to central maven repo -->
+		<profile>
+			<id>Release</id>
+			<build>
+				<plugins>
+					<!-- PGP Plugin is needed to sign jars -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>${maven.gpg.version}</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<version>${maven.javadoc.version}</version>
+						<configuration>
+							<aggregate>true</aggregate>
+							<failOnError>false</failOnError>
+						</configuration>
+						<executions>
+							<execution>
+								<id>attach-javadocs</id>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+						<version>${maven.source.version}</version>
+						<executions>
+							<execution>
+								<id>attach-sources</id>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+
+					<plugin>
+						<groupId>org.sonatype.plugins</groupId>
+						<artifactId>nexus-staging-maven-plugin</artifactId>
+						<version>${maven.nexus-staging.version}</version>
+						<extensions>true</extensions>
+						<configuration>
+							<serverId>ossrh</serverId>
+							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+							<autoReleaseAfterClose>true</autoReleaseAfterClose>
+						</configuration>
+					</plugin>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-release-plugin</artifactId>
+						<version>${maven.release.version}</version>
+						<configuration>
+							<autoVersionSubmodules>true</autoVersionSubmodules>
+							<useReleaseProfile>false</useReleaseProfile>
+							<releaseProfiles>release</releaseProfiles>
+							<goals>deploy</goals>
+						</configuration>
+					</plugin>
+
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+</project>

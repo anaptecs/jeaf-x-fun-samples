@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE Root PUBLIC "MessageData" "MessageData.dtd">
+<Root>
+    <ClassInfo author="JEAF Development Team" className="AccountingMessages" description="Demo class for generation of message constants." package="com.anaptecs.jeaf.accounting" version="1.5.x" />
+    <MessageFolder name="Accounting-Messages">
+        <Message defaultText="Executing SWIFT booking from account ''{0}'' to ''{1}''." description="Trace message when executing SWIFT booking." messageID="20000" name="SWIFT_BOOKING" traceLevel="INFO" type="INFO">
+            <LocalizedMessage country="" language="de" localizedText="Executing SWIFT booking from account ''{0}'' to ''{1}'' (Language: de)" variant="" />
+            <LocalizedMessage country="CH" language="de" localizedText="Executing SWIFT booking from account ''{0}'' to ''{1}'' (Language: de_CH)" variant="" />
+        </Message>
+        <Message defaultText="Transaction amount: ''{0}''." description="Trace message of transaction amount." messageID="20001" name="TX_AMOUNT" traceLevel="INFO" type="INFO" />
+        <Message defaultText="Money transfer failed. Transaction amount: {0}" description="Error message in case that a money transfer is not possible due to insufficient bank balance." messageID="20002" name="BANK_BALANCE_NOT_SUFFICIENT" traceLevel="INFO" type="ERROR" />
+        <Message defaultText="Transaction amount" description="Localized text for user interface label showing transaction amount." messageID="20003" name="TX_AMOUNT_LABEL" traceLevel="INFO" type="LOCALIZED_STRING">
+            <LocalizedMessage country="" language="de" localizedText="Transaction amount (de)" variant="" />
+            <LocalizedMessage country="CHE" language="de" localizedText="Transaction amount (de_CHE)" variant="" />
+        </Message>
+    </MessageFolder>
+</Root>
